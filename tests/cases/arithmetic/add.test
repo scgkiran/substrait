@@ -1,5 +1,5 @@
-### SUBSTRAIT_SCALAR_TEST: 1.0
-### SUBSTRAIT_INCLUDE: /extensions/functions_arithmetic.yaml
+### SUBSTRAIT_SCALAR_TEST: v1.0
+### SUBSTRAIT_INCLUDE: '/extensions/functions_arithmetic.yaml'
 
 # basic: Basic examples without any special cases
 add(120::i8, 5::i8) = 125::i8
@@ -18,7 +18,7 @@ add(120::i8, 10::i8) [overflow:SATURATE] = 127::i8
 add(-120::i8, -10::i8) [overflow:SATURATE] = -128::i8
 
 # overflow: Examples demonstrating overflow behavior tests: overflow with SILENT
-add(120::i8, 10::i8) [overflow:SILENT] = undefined
+add(120::i8, 10::i8) [overflow:SILENT] = <!UNDEFINED>
 
 # floating_exception: Examples demonstrating exceptional floating point cases
 add(1.5e+308::fp64, 1.5e+308::fp64) = inf::fp64
