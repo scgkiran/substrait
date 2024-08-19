@@ -82,15 +82,24 @@ add(100::i16, 100::i16) = 200::i16
 add(120::i8, 10::i8) [overflow:ERROR] = <!ERROR>
 ''')
 
+def parse_date_time_example():
+    parse_string('''### SUBSTRAIT_SCALAR_TEST: v1.0
+    ### SUBSTRAIT_INCLUDE: '/extensions/functions_datetime.yaml'
 
-def parse_one_file():
-    load_file("../cases/arithmetic/add.test")
+# timestamps: examples using the timestamp type
+lt('2016-12-31T13:30:15'::ts, '2017-12-31T13:30:15'::ts) = true::bool
+''')
+
+def parse_one_file(file_path):
+    load_file(file_path)
 
 
 if __name__ == '__main__':
-    parse_one_file()
+    parse_one_file("../cases/arithmetic/add.test")
+    parse_one_file("../cases/datetime/lt_datetime.test")
     # TODO get rid of debug code
     # parse_basic_example()
+    # parse_date_time_example()
     # parse_group()
     # parse_argument()
     # parse_type("date")

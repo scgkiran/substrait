@@ -44,7 +44,8 @@ typeOnly : datatype EOF ;
 groupOnly : testGroup EOF ;
 
 argument
-    : i8Arg | i16Arg | i32Arg | i64Arg
+    : nullArg
+    | i8Arg | i16Arg | i32Arg | i64Arg
     | fp32Arg | fp64Arg
     | booleanArg
     | stringArg
@@ -56,6 +57,8 @@ argument
     | intervalYearArg
     | intervalDayArg
     ;
+
+nullArg: NULL_LITERAL DOUBLE_COLON datatype;
 
 i8Arg: INTEGER_LITERAL DOUBLE_COLON I8;
 
@@ -102,11 +105,11 @@ timestampTzArg
     ;
 
 intervalYearArg
-    : intervalYearLiteral DOUBLE_COLON IntervalYear
+    : INTERVAL_YEAR_LITERAL DOUBLE_COLON IntervalYear
     ;
 
 intervalDayArg
-    : intervalDayLiteral DOUBLE_COLON IntervalDay
+    : INTERVAL_DAY_LITERAL DOUBLE_COLON IntervalDay
     ;
 
 intervalYearLiteral

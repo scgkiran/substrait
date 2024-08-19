@@ -96,20 +96,25 @@ BOOLEAN_LITERAL
     : 'true' | 'false'
     ;
 
+
+fragment FourDigits: [0-9][0-9][0-9][0-9];
+fragment TwoDigits: [0-9][0-9];
+
 DATE_LITERAL
-    : [0-9]{4} '-' [0-9]{2} '-' [0-9]{2}
+    : '\'' FourDigits '-' TwoDigits '-' TwoDigits '\''
     ;
 
 TIME_LITERAL
-    : [0-9]{2} ':' [0-9]{2} ':' [0-9]{2} ( '.' [0-9]+ )?
+    : '\'' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
     ;
 
 TIMESTAMP_LITERAL
-    : [0-9]{4} '-' [0-9]{2} '-' [0-9]{2} 'T' [0-9]{2} ':' [0-9]{2} ':' [0-9]{2} ( '.' [0-9]+ )?
+    : '\'' FourDigits '-' TwoDigits '-' TwoDigits 'T' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
     ;
 
 TIMESTAMP_TZ_LITERAL
-    : TIMESTAMP_LITERAL 'Z'?
+    : '\'' FourDigits '-' TwoDigits '-' TwoDigits 'T' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )?
+        [+-] TwoDigits ':' TwoDigits '\''
     ;
 
 PERIOD_PREFIX: 'P';
@@ -120,6 +125,26 @@ DAY_SUFFIX: 'D';
 HOUR_SUFFIX: 'H';
 SECOND_SUFFIX: 'S';
 FRACTIONAL_SECOND_SUFFIX: 'F';
+
+INTERVAL_YEAR_LITERAL
+    : '\'' PERIOD_PREFIX INTEGER_LITERAL YEAR_SUFFIX (INTEGER_LITERAL M_SUFFIX)? '\''
+    | '\'' PERIOD_PREFIX INTEGER_LITERAL M_SUFFIX '\''
+    ;
+
+INTERVAL_DAY_LITERAL
+    : '\'' PERIOD_PREFIX INTEGER_LITERAL DAY_SUFFIX (TIME_PREFIX TIME_INTERVAL)? '\''
+    | '\'' PERIOD_PREFIX TIME_PREFIX TIME_INTERVAL '\''
+    ;
+
+fragment TIME_INTERVAL
+    : INTEGER_LITERAL HOUR_SUFFIX (INTEGER_LITERAL M_SUFFIX)? (INTEGER_LITERAL SECOND_SUFFIX)?
+        (INTEGER_LITERAL FRACTIONAL_SECOND_SUFFIX)?
+    | INTEGER_LITERAL M_SUFFIX (INTEGER_LITERAL SECOND_SUFFIX)? (INTEGER_LITERAL FRACTIONAL_SECOND_SUFFIX)?
+    | INTEGER_LITERAL SECOND_SUFFIX (INTEGER_LITERAL FRACTIONAL_SECOND_SUFFIX)?
+    | INTEGER_LITERAL FRACTIONAL_SECOND_SUFFIX
+    ;
+
+NULL_LITERAL: 'null';
 
 // short names for types
 Bool: B O O L;
@@ -150,8 +175,6 @@ List     : L I S T;
 Map      : M A P;
 ANY      : A N Y;
 UserDefined: U '!';
-
-NULL: 'null';
 
 DOUBLE_COLON: '::';
 
