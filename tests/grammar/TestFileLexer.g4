@@ -72,6 +72,7 @@ ERROR: 'ERROR';
 SATURATE: 'SATURATE';
 SILENT: 'SILENT';
 TIE_TO_EVEN: 'TIE_TO_EVEN';
+NAN: 'NAN';
 
 STRING_LITERAL
     : '"' (~["\r\n])* '"'
@@ -82,14 +83,14 @@ INTEGER_LITERAL
     ;
 
 DECIMAL_LITERAL
-    : [+-]? [0-9]+ '.' [0-9]+
+    : [+-]? [0-9]+ ('.' [0-9]+)?
     ;
 
 FLOAT_LITERAL
     : [+-]? [0-9]+ ('.' [0-9]*)? ( [eE] [+-]? [0-9]+ )?
     | [+-]? 'inf'
     | 'nan' | 'NaN'
-    | 'sNaN' | 'snan'
+    | 'snan'
     ;
 
 BOOLEAN_LITERAL
@@ -163,7 +164,7 @@ Time     : T I M E;
 IntervalYear: I Y E A R;
 IntervalDay: I D A Y;
 UUID     : U U I D;
-Decimal  : D E C I M A L;
+Decimal  : D E C;
 PrecisionTimestamp: P T S;
 PrecisionTimestampTZ: P T S T Z;
 FixedChar: F C H A R;

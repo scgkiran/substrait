@@ -90,6 +90,15 @@ def parse_date_time_example():
 lt('2016-12-31T13:30:15'::ts, '2017-12-31T13:30:15'::ts) = true::bool
 ''')
 
+def parse_decimal_example():
+    parse_string('''### SUBSTRAIT_SCALAR_TEST: v1.0
+### SUBSTRAIT_INCLUDE: 'extensions/functions_arithmetic_decimal.yaml'
+
+# basic: Basic examples without any special cases
+power(8::dec, 2::dec<38, 0>) = 64::fp64
+power(1.0::dec, -1.0::dec<38, 0>) = 1.0::fp64
+''')
+
 def parse_one_file(file_path):
     load_file(file_path)
 
@@ -97,9 +106,11 @@ def parse_one_file(file_path):
 if __name__ == '__main__':
     parse_one_file("../cases/arithmetic/add.test")
     parse_one_file("../cases/datetime/lt_datetime.test")
+    parse_one_file("../cases/arithmetic_decimal/power.test")
     # TODO get rid of debug code
     # parse_basic_example()
     # parse_date_time_example()
+    # parse_decimal_example()
     # parse_group()
     # parse_argument()
     # parse_type("date")

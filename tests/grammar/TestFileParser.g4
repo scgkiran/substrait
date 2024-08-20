@@ -85,7 +85,9 @@ stringArg
     ;
 
 decimalArg
-    : DECIMAL_LITERAL DOUBLE_COLON (FP32 | FP64 | Decimal)
+    : DECIMAL_LITERAL DOUBLE_COLON (FP32 | FP64 | decimalType)
+    | INTEGER_LITERAL DOUBLE_COLON (FP32 | FP64 | decimalType)
+    | FLOAT_LITERAL DOUBLE_COLON decimalType
     ;
 
 dateArg
@@ -155,13 +157,38 @@ scalarType
   | UserDefined IDENTIFIER #userDefined
   ;
 
+fixedCharType
+    : FixedChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedChar
+    ;
+
+varCharType
+    : VarChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #varChar
+    ;
+
+fixedBinaryType
+    : FixedBinary isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedBinary
+    ;
+
+decimalType
+    : Decimal isnull=QMARK? (O_ANGLE_BRACKET precision=numericParameter COMMA scale=numericParameter C_ANGLE_BRACKET)?  #decimal
+    ;
+
+precisionTimestampType
+    : PrecisionTimestamp isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestamp
+    ;
+
+precisionTimestampTZType
+    : PrecisionTimestampTZ isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestampTZ
+    ;
+
 parameterizedType
-  : FixedChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedChar
-  | VarChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #varChar
-  | FixedBinary isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedBinary
-  | Decimal isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter COMMA scale=numericParameter C_ANGLE_BRACKET #decimal
-  | PrecisionTimestamp isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestamp
-  | PrecisionTimestampTZ isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestampTZ
+    : fixedCharType
+    | varCharType
+    | fixedBinaryType
+    | decimalType
+    | precisionTimestampType
+    | precisionTimestampTZType
+// TODO implement the rest of the parameterized types
 //  | Struct isnull='?'? Lt expr (Comma expr)* Gt #struct
 //  | NStruct isnull='?'? Lt Identifier expr (Comma Identifier expr)* Gt #nStruct
 //  | List isnull='?'? Lt expr Gt #list
@@ -186,7 +213,7 @@ option_name
     ;
 
 option_value
-    : ERROR | SATURATE | SILENT | TIE_TO_EVEN
+    : ERROR | SATURATE | SILENT | TIE_TO_EVEN | NAN
     ;
 
 func_options
