@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
 from antlr4 import FileStream, InputStream, CommonTokenStream
 from antlr_generated.TestFileLexer import TestFileLexer
 from antlr4.error.ErrorListener import ErrorListener
@@ -10,18 +12,17 @@ def parse_one_file(file_path):
 
 
 def parse_string(input_string, rule_name='doc'):
-    return parse_stream(InputStream(input_string), rule_name)
+    return parse_stream(InputStream(input_string))
 
 
-def parse_stream(input_stream, rule_name='doc'):
+def parse_stream(input_stream):
 
     # Create a lexer and parser
     lexer = TestFileLexer(input_stream)
     token_stream = CommonTokenStream(lexer)
     parser = TestFileParser(token_stream)
 
-    # tree = parser.doc()  # This is the entry point of testfile parser
-    tree = get_parse_tree(parser, rule_name)
+    tree = parser.doc()  # This is the entry point of testfile parser
     if parser.getNumberOfSyntaxErrors() > 0:
         print(tree.toStringTree(recog=parser))
         print(f"{parser.getNumberOfSyntaxErrors()} Syntax errors found, exiting")
@@ -34,11 +35,6 @@ def parse_stream(input_stream, rule_name='doc'):
     # visitor = TestCaseVisitor()
     # visitor.visit(tree)
     # tree.visit()
-
-
-def get_parse_tree(parser, rule_name='doc'):
-    if rule_name == 'doc':
-        return parser.doc()
 
 
 def parse_basic_example():
