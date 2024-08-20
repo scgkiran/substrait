@@ -37,12 +37,6 @@ result
     | substraitError
     ;
 
-// TODO remove the debug rules
-argumentOnly : argument EOF ;
-integerOnly : INTEGER_LITERAL EOF ;
-typeOnly : datatype EOF ;
-groupOnly : testGroup EOF ;
-
 argument
     : nullArg
     | i8Arg | i16Arg | i32Arg | i64Arg
