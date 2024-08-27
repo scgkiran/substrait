@@ -1,6 +1,6 @@
 ANTLR_JAR=antlr-4.13.2-complete.jar
-GRAMMARS=SubstraitLexer.g4 SubstraitType.g4 TestFileLexer.g4 TestFileParser.g4
-OUTPUT_DIR=../coverage/antlr_generated
+GRAMMARS=SubstraitLexer.g4 TestFileLexer.g4 TestFileParser.g4
+OUTPUT_DIR=../tests/coverage/antlr_generated
 
 generate:
 	java -jar $(ANTLR_JAR) -visitor -Dlanguage=Python3 -o $(OUTPUT_DIR) $(GRAMMARS)

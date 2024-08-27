@@ -1,7 +1,8 @@
 parser grammar TestFileParser;
 
 options {
-    tokenVocab=TestFileLexer;  // This imports the tokens from SubstraitLexer.g4
+    tokenVocab=SubstraitLexer;
+    tokenVocab=TestFileLexer;
 }
 
 doc
@@ -17,7 +18,7 @@ version
     ;
 
 include
-    : SUBSTRAIT_INCLUDE STRING (COMMA STRING)?
+    : SUBSTRAIT_INCLUDE STRING_LITERAL (COMMA STRING_LITERAL)?
     ;
 
 testGroup
@@ -75,7 +76,7 @@ booleanArg
     ;
 
 stringArg
-    : STRING_LITERAL DOUBLE_COLON String
+    : STRING_LITERAL DOUBLE_COLON Str
     ;
 
 decimalArg
@@ -93,19 +94,19 @@ timeArg
     ;
 
 timestampArg
-    : TIMESTAMP_LITERAL DOUBLE_COLON Timestamp
+    : TIMESTAMP_LITERAL DOUBLE_COLON Ts
     ;
 
 timestampTzArg
-    : TIMESTAMP_TZ_LITERAL DOUBLE_COLON TimestampTZ
+    : TIMESTAMP_TZ_LITERAL DOUBLE_COLON TsTZ
     ;
 
 intervalYearArg
-    : INTERVAL_YEAR_LITERAL DOUBLE_COLON IntervalYear
+    : INTERVAL_YEAR_LITERAL DOUBLE_COLON IYear
     ;
 
 intervalDayArg
-    : INTERVAL_DAY_LITERAL DOUBLE_COLON IntervalDay
+    : INTERVAL_DAY_LITERAL DOUBLE_COLON IDay
     ;
 
 intervalYearLiteral
@@ -152,27 +153,27 @@ scalarType
   ;
 
 fixedCharType
-    : FixedChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedChar
+    : FChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedChar
     ;
 
 varCharType
-    : VarChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #varChar
+    : VChar isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #varChar
     ;
 
 fixedBinaryType
-    : FixedBinary isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedBinary
+    : FBin isnull=QMARK? O_ANGLE_BRACKET len=numericParameter C_ANGLE_BRACKET #fixedBinary
     ;
 
 decimalType
-    : Decimal isnull=QMARK? (O_ANGLE_BRACKET precision=numericParameter COMMA scale=numericParameter C_ANGLE_BRACKET)?  #decimal
+    : Dec isnull=QMARK? (O_ANGLE_BRACKET precision=numericParameter COMMA scale=numericParameter C_ANGLE_BRACKET)?  #decimal
     ;
 
 precisionTimestampType
-    : PrecisionTimestamp isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestamp
+    : PTs isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestamp
     ;
 
 precisionTimestampTZType
-    : PrecisionTimestampTZ isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestampTZ
+    : PTsTZ isnull=QMARK? O_ANGLE_BRACKET precision=numericParameter C_ANGLE_BRACKET #precisionTimestampTZ
     ;
 
 parameterizedType

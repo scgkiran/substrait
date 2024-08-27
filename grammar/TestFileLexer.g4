@@ -2,7 +2,6 @@ lexer grammar TestFileLexer;
 
 import SubstraitLexer;
 
-
 SUBSTRAIT_SCALAR_TEST
     : '### SUBSTRAIT_SCALAR_TEST:'
     ;
@@ -36,9 +35,6 @@ SILENT: 'SILENT';
 TIE_TO_EVEN: 'TIE_TO_EVEN';
 NAN: 'NAN';
 
-STRING_LITERAL
-    : '\'' ('\\' . | '\'\'' | ~['\\])* '\''
-    ;
 
 INTEGER_LITERAL
     : [+-]? INTEGER
@@ -59,27 +55,25 @@ BOOLEAN_LITERAL
     : 'true' | 'false'
     ;
 
-
 fragment FourDigits: [0-9][0-9][0-9][0-9];
 fragment TwoDigits: [0-9][0-9];
-
-DATE_LITERAL
-    : '\'' FourDigits '-' TwoDigits '-' TwoDigits '\''
-    ;
-
-TIME_LITERAL
-    : '\'' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
-    ;
-
-TIMESTAMP_LITERAL
-    : '\'' FourDigits '-' TwoDigits '-' TwoDigits 'T' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
-    ;
 
 TIMESTAMP_TZ_LITERAL
     : '\'' FourDigits '-' TwoDigits '-' TwoDigits 'T' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )?
         [+-] TwoDigits ':' TwoDigits '\''
     ;
 
+TIMESTAMP_LITERAL
+    : '\'' FourDigits '-' TwoDigits '-' TwoDigits 'T' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
+    ;
+
+TIME_LITERAL
+    : '\'' TwoDigits ':' TwoDigits ':' TwoDigits ( '.' [0-9]+ )? '\''
+    ;
+
+DATE_LITERAL
+    : '\'' FourDigits '-' TwoDigits '-' TwoDigits '\''
+    ;
 
 PERIOD_PREFIX: 'P';
 TIME_PREFIX: 'T';
@@ -109,3 +103,7 @@ fragment TIME_INTERVAL
     ;
 
 NULL_LITERAL: 'null';
+
+STRING_LITERAL
+    : '\'' ('\\' . | '\'\'' | ~['\\])* '\''
+    ;

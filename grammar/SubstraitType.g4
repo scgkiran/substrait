@@ -1,68 +1,10 @@
 grammar SubstraitType;
 
-//
-fragment A : [aA];
-fragment B : [bB];
-fragment C : [cC];
-fragment D : [dD];
-fragment E : [eE];
-fragment F : [fF];
-fragment G : [gG];
-fragment H : [hH];
-fragment I : [iI];
-fragment J : [jJ];
-fragment K : [kK];
-fragment L : [lL];
-fragment M : [mM];
-fragment N : [nN];
-fragment O : [oO];
-fragment P : [pP];
-fragment Q : [qQ];
-fragment R : [rR];
-fragment S : [sS];
-fragment T : [tT];
-fragment U : [uU];
-fragment V : [vV];
-fragment W : [wW];
-fragment X : [xX];
-fragment Y : [yY];
-fragment Z : [zZ];
-
+import SubstraitLexer;
 
 If       : I F;
 Then     : T H E N;
 Else     : E L S E;
-
-// TYPES
-Boolean  : B O O L E A N;
-I8       : I '8';
-I16      : I '16';
-I32      : I '32';
-I64      : I '64';
-FP32     : F P '32';
-FP64     : F P '64';
-String   : S T R I N G;
-Binary   : B I N A R Y;
-Timestamp: T I M E S T A M P;
-TimestampTZ: T I M E S T A M P '_' T Z;
-Date     : D A T E;
-Time     : T I M E;
-IntervalYear: I N T E R V A L '_' Y E A R;
-IntervalDay: I N T E R V A L '_' D A Y;
-UUID     : U U I D;
-Decimal  : D E C I M A L;
-PrecisionTimestamp: P R E C I S I O N '_' T I M E S T A M P;
-PrecisionTimestampTZ: P R E C I S I O N '_' T I M E S T A M P '_' T Z;
-FixedChar: F I X E D C H A R;
-VarChar  : V A R C H A R;
-FixedBinary: F I X E D B I N A R Y;
-Struct   : S T R U C T;
-NStruct  : N S T R U C T;
-List     : L I S T;
-Map      : M A P;
-ANY      : A N Y;
-UserDefined: U '!';
-
 
 // OPERATIONS
 And      : A N D;
@@ -165,16 +107,16 @@ scalarType
   ;
 
 parameterizedType
-  : FixedChar isnull='?'? Lt len=numericParameter Gt #fixedChar
-  | VarChar isnull='?'? Lt len=numericParameter Gt #varChar
-  | FixedBinary isnull='?'? Lt len=numericParameter Gt #fixedBinary
-  | Decimal isnull='?'? Lt precision=numericParameter Comma scale=numericParameter Gt #decimal
-  | PrecisionTimestamp isnull='?'? Lt precision=numericParameter Gt #precisionTimestamp
-  | PrecisionTimestampTZ isnull='?'? Lt precision=numericParameter Gt #precisionTimestampTZ
-  | Struct isnull='?'? Lt expr (Comma expr)* Gt #struct
-  | NStruct isnull='?'? Lt Identifier expr (Comma Identifier expr)* Gt #nStruct
-  | List isnull='?'? Lt expr Gt #list
-  | Map isnull='?'? Lt key=expr Comma value=expr Gt #map
+  : FixedChar isnull=QMark? Lt len=numericParameter Gt #fixedChar
+  | VarChar isnull=QMark? Lt len=numericParameter Gt #varChar
+  | FixedBinary isnull=QMark? Lt len=numericParameter Gt #fixedBinary
+  | Decimal isnull=QMark? Lt precision=numericParameter Comma scale=numericParameter Gt #decimal
+  | PrecisionTimestamp isnull=QMark? Lt precision=numericParameter Gt #precisionTimestamp
+  | PrecisionTimestampTZ isnull=QMark? Lt precision=numericParameter Gt #precisionTimestampTZ
+  | Struct isnull=QMark? Lt expr (Comma expr)* Gt #struct
+  | NStruct isnull=QMark? Lt Identifier expr (Comma Identifier expr)* Gt #nStruct
+  | List isnull=QMark? Lt expr Gt #list
+  | Map isnull=QMark? Lt key=expr Comma value=expr Gt #map
   ;
 
 numericParameter
@@ -186,9 +128,9 @@ numericParameter
 anyType: ANY;
 
 type
-  : scalarType isnull='?'?
+  : scalarType isnull=QMark?
   | parameterizedType
-  | anyType isnull='?'?
+  | anyType isnull=QMark?
   ;
 
 //  : (OParen innerExpr CParen | innerExpr)
@@ -198,7 +140,7 @@ expr
   | Identifier Eq expr Newline+ (Identifier Eq expr Newline+)* finalType=type Newline* #MultilineDefinition
   | type #TypeLiteral
   | number=Number #LiteralNumber
-  | identifier=Identifier isnull='?'? #TypeParam
+  | identifier=Identifier isnull=QMark? #TypeParam
   | Identifier OParen (expr (Comma expr)*)? CParen #FunctionCall
   | left=expr op=(And | Or | Plus | Minus | Lt | Gt | Eq | NotEquals | Lte | Gte | Asterisk | ForwardSlash) right=expr #BinaryExpr
   | If ifExpr=expr Then thenExpr=expr Else elseExpr=expr #IfExpr
