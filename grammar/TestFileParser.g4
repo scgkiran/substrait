@@ -6,7 +6,7 @@ options {
 }
 
 doc
-    : header (testGroup? testCase+)+ EOF
+    : header testGroup+ EOF
     ;
 
 header
@@ -18,15 +18,19 @@ version
     ;
 
 include
-    : SUBSTRAIT_INCLUDE STRING_LITERAL (COMMA STRING_LITERAL)?
+    : SUBSTRAIT_INCLUDE STRING_LITERAL (COMMA STRING_LITERAL)*
     ;
 
-testGroup
+testGroupDescription
     : DESCRIPTION_LINE
     ;
 
 testCase
     : functionName=IDENTIFIER OPAREN arguments CPAREN ( OBRACKET func_options CBRACKET )? EQ result
+    ;
+
+testGroup
+    : testGroupDescription (testCase)+
     ;
 
 arguments
@@ -53,6 +57,10 @@ argument
     | intervalDayArg
     ;
 
+numericLiteral
+    : DECIMAL_LITERAL | INTEGER_LITERAL | FLOAT_LITERAL
+    ;
+
 nullArg: NULL_LITERAL DOUBLE_COLON datatype;
 
 i8Arg: INTEGER_LITERAL DOUBLE_COLON I8;
@@ -64,11 +72,15 @@ i32Arg: INTEGER_LITERAL DOUBLE_COLON I32;
 i64Arg: INTEGER_LITERAL DOUBLE_COLON I64;
 
 fp32Arg
-    : FLOAT_LITERAL DOUBLE_COLON FP32
+    : numericLiteral DOUBLE_COLON FP32
     ;
 
 fp64Arg
-    : FLOAT_LITERAL DOUBLE_COLON FP64
+    : numericLiteral DOUBLE_COLON FP64
+    ;
+
+decimalArg
+    : numericLiteral DOUBLE_COLON decimalType
     ;
 
 booleanArg
@@ -77,12 +89,6 @@ booleanArg
 
 stringArg
     : STRING_LITERAL DOUBLE_COLON Str
-    ;
-
-decimalArg
-    : DECIMAL_LITERAL DOUBLE_COLON (FP32 | FP64 | decimalType)
-    | INTEGER_LITERAL DOUBLE_COLON (FP32 | FP64 | decimalType)
-    | FLOAT_LITERAL DOUBLE_COLON decimalType
     ;
 
 dateArg
@@ -140,14 +146,14 @@ scalarType
   | I64 #i64
   | FP32 #fp32
   | FP64 #fp64
-  | String #string
+  | Str #string
   | Binary #binary
-  | Timestamp #timestamp
-  | TimestampTZ #timestampTz
+  | Ts #timestamp
+  | TsTZ #timestampTz
   | Date #date
   | Time #time
-  | IntervalDay #intervalDay
-  | IntervalYear #intervalYear
+  | IDay #intervalDay
+  | IYear #intervalYear
   | UUID #uuid
   | UserDefined IDENTIFIER #userDefined
   ;
@@ -191,7 +197,7 @@ parameterizedType
   ;
 
 numericParameter
-  : INTEGER_LITERAL #numericLiteral
+  : INTEGER_LITERAL #integerLiteral
   ;
 
 substraitError

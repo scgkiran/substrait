@@ -1,18 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
+import os
 
 from antlr4 import FileStream, InputStream, CommonTokenStream
-from antlr_generated.TestFileLexer import TestFileLexer
-from antlr4.error.ErrorListener import ErrorListener
-from antlr_generated.TestFileParser import TestFileParser
+from tests.coverage.antlr_generated.TestFileLexer import TestFileLexer
+from tests.coverage.antlr_generated.TestFileParser import TestFileParser
 from tests.coverage.visitor import TestCaseVisitor
 
 
 def parse_one_file(file_path):
-    parse_stream(FileStream(file_path))
-
-
-def parse_string(input_string):
-    return parse_stream(InputStream(input_string))
+    return parse_stream(FileStream(file_path))
 
 
 def parse_stream(input_stream):
@@ -31,54 +27,22 @@ def parse_stream(input_stream):
     print(tree.toStringTree(recog=parser))
 
     # TODO use custom visitor to build test cases and compute coverage
-    # visitor = TestCaseVisitor()
-    # visitor.visit(tree)
-    # tree.visit()
+    visitor = TestCaseVisitor()
+    test_file = visitor.visit(tree)
+    return test_file
 
 
-def parse_basic_example():
-    parse_string(
-        """### SUBSTRAIT_SCALAR_TEST: v1.0
-### SUBSTRAIT_INCLUDE: '/extensions/functions_arithmetic.yaml'
-
-# basic: 'Basic examples without any special cases'
-add(120::i8, 5::i8) = 125::i8
-add(100::i16, 100::i16) = 200::i16
-
-# overflow: Examples demonstrating overflow behavior
-add(120::i8, 10::i8) [overflow:ERROR] = <!ERROR>
-"""
-    )
-
-
-def parse_date_time_example():
-    parse_string(
-        """### SUBSTRAIT_SCALAR_TEST: v1.0
-    ### SUBSTRAIT_INCLUDE: '/extensions/functions_datetime.yaml'
-
-# timestamps: examples using the timestamp type
-lt('2016-12-31T13:30:15'::ts, '2017-12-31T13:30:15'::ts) = true::bool
-"""
-    )
-
-
-def parse_decimal_example():
-    parse_string(
-        """### SUBSTRAIT_SCALAR_TEST: v1.0
-### SUBSTRAIT_INCLUDE: 'extensions/functions_arithmetic_decimal.yaml'
-
-# basic: Basic examples without any special cases
-power(8::dec, 2::dec<38, 0>) = 64::fp64
-power(1.0::dec, -1.0::dec<38, 0>) = 1.0::fp64
-"""
-    )
+def parse_directory_recursively(dirPath):
+    # for each file in directory call parse_one_file
+    test_files = []
+    for file in os.listdir(dirPath):
+        if os.path.isfile(file) and file.endswith(".test"):
+            test_file = parse_one_file(file)
+            test_files.append(test_file)
+        elif os.path.isdir(file):
+            parse_directory_recursively(file)
 
 
 if __name__ == "__main__":
     # TODO move these tests to test folder
-    # parse_basic_example()
-    parse_date_time_example()
-    # parse_decimal_example()
-    # parse_one_file("../cases/arithmetic/add.test")
-    # parse_one_file("../cases/datetime/lt_datetime.test")
-    # parse_one_file("../cases/arithmetic_decimal/power.test")
+    parse_directory_recursively("../cases")
