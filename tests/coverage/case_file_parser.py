@@ -2,8 +2,8 @@ import os
 
 from antlr4 import CommonTokenStream, FileStream
 
-from tests.coverage.antlr_generated.TestFileLexer import TestFileLexer
-from tests.coverage.antlr_generated.TestFileParser import TestFileParser
+from tests.coverage.antlr_parser.TestFileLexer import TestFileLexer
+from tests.coverage.antlr_parser.TestFileParser import TestFileParser
 from tests.coverage.visitor import TestCaseVisitor
 
 

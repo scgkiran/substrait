@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
-from tests.coverage.antlr_generated.TestFileParser import TestFileParser
-from tests.coverage.antlr_generated.TestFileParserVisitor import TestFileParserVisitor
+from tests.coverage.antlr_parser.TestFileParser import TestFileParser
+from tests.coverage.antlr_parser.TestFileParserVisitor import TestFileParserVisitor
 from tests.coverage.nodes import CaseGroup, TestFile, TestCase, CaseLiteral, SubstraitError
 
 
