@@ -1,5 +1,5 @@
 from antlr4 import InputStream
-from tests.coverage.coverage import parse_stream, parse_one_file
+from tests.coverage.case_file_parser import parse_stream, parse_one_file
 from tests.coverage.nodes import CaseLiteral
 
 
@@ -33,7 +33,7 @@ lt('2016-12-31T13:30:15'::ts, '2017-12-31T13:30:15'::ts) = true::bool
 """
     )
     assert len(test_file.testcases) == 1
-    assert test_file.testcases[0].function == "lt"
+    assert test_file.testcases[0].func_name == "lt"
     assert test_file.testcases[0].base_uri == "/extensions/functions_datetime.yaml"
     assert test_file.testcases[0].group.name == "timestamps"
     assert test_file.testcases[0].group.description == "examples using the timestamp type"
@@ -53,7 +53,7 @@ power(1.0::dec<38, 0>, -1.0::dec<38, 0>) = 1.0::fp64
 """
     )
     assert len(test_file.testcases) == 2
-    assert test_file.testcases[0].function == "power"
+    assert test_file.testcases[0].func_name == "power"
     assert test_file.testcases[0].base_uri == "extensions/functions_arithmetic_decimal.yaml"
     assert test_file.testcases[0].group.name == "basic"
     assert test_file.testcases[0].group.description == "Basic examples without any special cases"
@@ -65,16 +65,16 @@ power(1.0::dec<38, 0>, -1.0::dec<38, 0>) = 1.0::fp64
 def test_parse_file():
     test_file = parse_one_file("../cases/arithmetic/add.test")
     assert len(test_file.testcases) == 15
-    assert test_file.testcases[0].function == "add"
+    assert test_file.testcases[0].func_name == "add"
     assert test_file.testcases[0].base_uri == "/extensions/functions_arithmetic.yaml"
     assert test_file.include == "/extensions/functions_arithmetic.yaml"
 
     test_file = parse_one_file("../cases/datetime/lt_datetime.test")
     assert len(test_file.testcases) == 13
-    assert test_file.testcases[0].function == "lt"
+    assert test_file.testcases[0].func_name == "lt"
     assert test_file.testcases[0].base_uri == "/extensions/functions_datetime.yaml"
 
     test_file = parse_one_file("../cases/arithmetic_decimal/power.test")
     assert len(test_file.testcases) == 9
-    assert test_file.testcases[0].function == "power"
+    assert test_file.testcases[0].func_name == "power"
     assert test_file.testcases[0].base_uri == "extensions/functions_arithmetic_decimal.yaml"

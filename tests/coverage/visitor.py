@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: Apache-2.0
 from tests.coverage.antlr_generated.TestFileParser import TestFileParser
 from tests.coverage.antlr_generated.TestFileParserVisitor import TestFileParserVisitor
-from tests.coverage.nodes import CaseGroup, TestFile, TestCase, CaseLiteral
+from tests.coverage.nodes import CaseGroup, TestFile, TestCase, CaseLiteral, SubstraitError
 
 
 class TestCaseVisitor(TestFileParserVisitor):
+    def __init__(self, file_path):
+        self.file_path = file_path
+
     def visitDoc(self, ctx: TestFileParser.DocContext):
-        # TODO Implement this method
         version, include = self.visitHeader(ctx.header())
         testcases = []
         for group in ctx.testGroup():
@@ -15,7 +17,7 @@ class TestCaseVisitor(TestFileParserVisitor):
                 test_case.base_uri = include
             testcases.extend(group_tests)
 
-        return TestFile(version, include, testcases)
+        return TestFile(self.file_path, version, include, testcases)
 
     def visitHeader(self, ctx: TestFileParser.HeaderContext):
         version = self.visitVersion(ctx.version())
@@ -53,7 +55,7 @@ class TestCaseVisitor(TestFileParserVisitor):
         options = dict()
         if ctx.func_options() is not None:
             options = self.visitFunc_options(ctx.func_options())
-        return TestCase(function=ctx.IDENTIFIER().getText(),
+        return TestCase(func_name=ctx.IDENTIFIER().getText(),
                         base_uri="",
                         group=None,
                         options=options,
@@ -179,7 +181,7 @@ class TestCaseVisitor(TestFileParserVisitor):
 
     def visitSubstraitError(self, ctx: TestFileParser.SubstraitErrorContext):
         if ctx.ERROR_RESULT() is not None:
-            return "error"
+            return SubstraitError("error")
         if ctx.UNDEFINED_RESULT() is not None:
-            return "undefined"
-        return "unknown_error"
+            return SubstraitError("undefined")
+        return SubstraitError("unknown_error")
