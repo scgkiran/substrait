@@ -2,13 +2,16 @@ import os
 import yaml
 from ruamel.yaml import YAML
 
+enable_debug = False
+
 
 def error(msg):
     print(f"ERROR: {msg}")
 
 
 def debug(msg):
-    print(f"DEBUG: {msg}")
+    if enable_debug:
+        print(f"DEBUG: {msg}")
 
 
 type_to_short_type = {
@@ -69,17 +72,18 @@ class Extension:
 
     @staticmethod
     def get_short_type(long_type):
-        long_type = long_type.lower()
-        if long_type.endswith('?'):
-            long_type = long_type[:-1]
+        long_type = long_type.lower().rstrip('?')
         short_type = type_to_short_type.get(long_type, None)
+
         if short_type is None:
             # remove the type parameters and try again
             if '<' in long_type:
-                long_type = long_type[:long_type.find('<')]
-                if long_type.endswith('?'):
-                    long_type = long_type[:-1]
+                long_type = long_type[:long_type.find('<')].rstrip('?')
                 short_type = type_to_short_type.get(long_type, None)
+            if short_type is None:
+                if '\n' in long_type:
+                    long_type = long_type.split('\n')[-1]
+                    short_type = type_to_short_type.get(long_type, None)
             if short_type is None:
                 if '!' not in long_type:
                     error(f"Type not found in the mapping: {long_type}")
@@ -119,7 +123,7 @@ class Extension:
         dup_idx = 0
         for func in func_list:
             name = func['name']
-            uri = f"{suffix}.{name}"
+            uri = extension[5:]  # strip the ../..
             if name in function_map:
                 debug(f"Duplicate function name: {name} renaming to {name}_{suffix} extension: {extension}")
                 dup_idx += 1
@@ -185,7 +189,7 @@ class FunctionVariant:
     def __str__(self):
         return f"Function(name={self.name}, uri={self.uri}, description={self.description}, overloads={self.overload}, args={self.args}, result={self.result})"
 
-    def increment_test_count(self, count):
+    def increment_test_count(self, count=1):
         self.test_count += count
 
 
@@ -207,6 +211,7 @@ class FunctionRegistry:
     scalar_functions = dict()
     aggregate_functions = dict()
     window_functions = dict()
+    extensions = set()
 
     def __init__(self, scalar_functions, aggregate_functions, window_functions, dependencies):
         self.dependencies = dependencies
@@ -219,6 +224,7 @@ class FunctionRegistry:
 
     def add_functions(self, functions, func_type):
         for func in functions.values():
+            self.extensions.add(func['uri'])
             f_name = func["name"]
             fun_arr = self.registry.get(f_name, [])
             for overload in func["overloads"]:
@@ -234,11 +240,11 @@ class FunctionRegistry:
             if function.args == args:
                 return function
 
-    def get_test_coverage(self):
+    def get_extension_list(self):
+        return list(self.extensions)
 
-        test_count = 0
-        for functions in self.registry.values():
+    def fill_coverage(self, coverage):
+        for func_name, functions in self.registry.items():
             for function in functions:
-                test_count += function.test_count
-        return test_count
+                coverage.update_coverage(function.uri, func_name, function.args, function.test_count)
 
