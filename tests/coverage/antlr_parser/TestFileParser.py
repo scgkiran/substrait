@@ -5955,7 +5955,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class DateContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -5980,7 +5979,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class StringContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6005,7 +6003,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class I64Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6030,7 +6027,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class UserDefinedContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6058,7 +6054,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class I32Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6083,7 +6078,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class IntervalYearContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6108,7 +6102,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class UuidContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6133,7 +6126,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class I8Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6158,7 +6150,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class I16Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6183,7 +6174,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class BinaryContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6208,7 +6198,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class IntervalDayContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6233,7 +6222,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class Fp64Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6258,7 +6246,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class Fp32Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6283,7 +6270,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimeContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6308,7 +6294,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class BooleanContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6333,7 +6318,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimestampContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6358,7 +6342,6 @@ class TestFileParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimestampTzContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.ScalarTypeContext
@@ -6521,7 +6504,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class FixedCharContext(FixedCharTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.FixedCharTypeContext
@@ -6606,7 +6588,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class VarCharContext(VarCharTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.VarCharTypeContext
@@ -6691,7 +6672,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class FixedBinaryContext(FixedBinaryTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.FixedBinaryTypeContext
@@ -6776,7 +6756,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class DecimalContext(DecimalTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.DecimalTypeContext
@@ -6879,7 +6858,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class PrecisionTimestampContext(PrecisionTimestampTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.PrecisionTimestampTypeContext
@@ -6966,7 +6944,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class PrecisionTimestampTZContext(PrecisionTimestampTZTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.PrecisionTimestampTZTypeContext
@@ -7150,7 +7127,6 @@ class TestFileParser(Parser):
             super().copyFrom(ctx)
 
     class IntegerLiteralContext(NumericParameterContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a TestFileParser.NumericParameterContext
