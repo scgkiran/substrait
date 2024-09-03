@@ -1,7 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 from tests.coverage.antlr_parser.TestFileParser import TestFileParser
 from tests.coverage.antlr_parser.TestFileParserVisitor import TestFileParserVisitor
-from tests.coverage.nodes import CaseGroup, TestFile, TestCase, CaseLiteral, SubstraitError
+from tests.coverage.nodes import (
+    CaseGroup,
+    TestFile,
+    TestCase,
+    CaseLiteral,
+    SubstraitError,
+)
 
 
 class TestCaseVisitor(TestFileParserVisitor):
@@ -31,7 +37,9 @@ class TestCaseVisitor(TestFileParserVisitor):
         # TODO handle multiple includes
         return ctx.STRING_LITERAL(0).getText().strip("'")
 
-    def visitTestGroupDescription(self, ctx: TestFileParser.TestGroupDescriptionContext):
+    def visitTestGroupDescription(
+        self, ctx: TestFileParser.TestGroupDescriptionContext
+    ):
         group = ctx.DESCRIPTION_LINE().getText().strip("#").strip()
         parts = group.split(":")
         if len(parts) == 2:
@@ -55,13 +63,15 @@ class TestCaseVisitor(TestFileParserVisitor):
         options = dict()
         if ctx.func_options() is not None:
             options = self.visitFunc_options(ctx.func_options())
-        return TestCase(func_name=ctx.IDENTIFIER().getText(),
-                        base_uri="",
-                        group=None,
-                        options=options,
-                        args=args,
-                        result=result,
-                        comment="")
+        return TestCase(
+            func_name=ctx.IDENTIFIER().getText(),
+            base_uri="",
+            group=None,
+            options=options,
+            args=args,
+            result=result,
+            comment="",
+        )
 
     def visitFunc_options(self, ctx: TestFileParser.Func_optionsContext):
         options = {}
@@ -117,7 +127,7 @@ class TestCaseVisitor(TestFileParserVisitor):
 
         return CaseLiteral(value="unknown_value", type="unknown_type")
 
-    def visitNumericLiteral(self, ctx:TestFileParser.NumericLiteralContext):
+    def visitNumericLiteral(self, ctx: TestFileParser.NumericLiteralContext):
         if ctx.INTEGER_LITERAL() is not None:
             return ctx.INTEGER_LITERAL().getText()
         if ctx.DECIMAL_LITERAL() is not None:
@@ -142,10 +152,16 @@ class TestCaseVisitor(TestFileParserVisitor):
 
     def visitFp32Arg(self, ctx: TestFileParser.Fp32ArgContext):
         # TODO add checks on number of decimal places
-        return CaseLiteral(value=self.visitNumericLiteral(ctx.numericLiteral()), type=ctx.FP32().getText().lower())
+        return CaseLiteral(
+            value=self.visitNumericLiteral(ctx.numericLiteral()),
+            type=ctx.FP32().getText().lower(),
+        )
 
     def visitFp64Arg(self, ctx: TestFileParser.Fp64ArgContext):
-        return CaseLiteral(value=self.visitNumericLiteral(ctx.numericLiteral()), type=ctx.FP64().getText().lower())
+        return CaseLiteral(
+            value=self.visitNumericLiteral(ctx.numericLiteral()),
+            type=ctx.FP64().getText().lower(),
+        )
 
     def visitBooleanArg(self, ctx: TestFileParser.BooleanArgContext):
         return CaseLiteral(value=ctx.BOOLEAN_LITERAL().getText(), type="bool")
@@ -154,7 +170,10 @@ class TestCaseVisitor(TestFileParserVisitor):
         return CaseLiteral(value=ctx.STRING_LITERAL().getText(), type="str")
 
     def visitDecimalArg(self, ctx: TestFileParser.DecimalArgContext):
-        return CaseLiteral(value=self.visitNumericLiteral(ctx.numericLiteral()), type=ctx.decimalType().getText().lower())
+        return CaseLiteral(
+            value=self.visitNumericLiteral(ctx.numericLiteral()),
+            type=ctx.decimalType().getText().lower(),
+        )
 
     def visitDateArg(self, ctx: TestFileParser.DateArgContext):
         return CaseLiteral(value=ctx.DATE_LITERAL().getText().strip("'"), type="date")
@@ -163,16 +182,24 @@ class TestCaseVisitor(TestFileParserVisitor):
         return CaseLiteral(value=ctx.TIME_LITERAL().getText().strip("'"), type="time")
 
     def visitTimestampArg(self, ctx: TestFileParser.TimestampArgContext):
-        return CaseLiteral(value=ctx.TIMESTAMP_LITERAL().getText().strip("'"), type="ts")
+        return CaseLiteral(
+            value=ctx.TIMESTAMP_LITERAL().getText().strip("'"), type="ts"
+        )
 
     def visitTimestampTzArg(self, ctx: TestFileParser.TimestampTzArgContext):
-        return CaseLiteral(value=ctx.TIMESTAMP_TZ_LITERAL().getText().strip("'"), type="tstz")
+        return CaseLiteral(
+            value=ctx.TIMESTAMP_TZ_LITERAL().getText().strip("'"), type="tstz"
+        )
 
     def visitIntervalDayArg(self, ctx: TestFileParser.IntervalDayArgContext):
-        return CaseLiteral(value=ctx.INTERVAL_DAY_LITERAL().getText().strip("'"), type="iday")
+        return CaseLiteral(
+            value=ctx.INTERVAL_DAY_LITERAL().getText().strip("'"), type="iday"
+        )
 
     def visitIntervalYearArg(self, ctx: TestFileParser.IntervalYearArgContext):
-        return CaseLiteral(value=ctx.INTERVAL_YEAR_LITERAL().getText().strip("'"), type="iyear")
+        return CaseLiteral(
+            value=ctx.INTERVAL_YEAR_LITERAL().getText().strip("'"), type="iyear"
+        )
 
     def visitResult(self, ctx: TestFileParser.ResultContext):
         if ctx.argument() is not None:

@@ -12,6 +12,7 @@ class CaseGroup:
 class SubstraitError:
     error: str
 
+
 @dataclass
 class CaseLiteral:
     value: str | int | float | list
@@ -19,9 +20,9 @@ class CaseLiteral:
 
     def get_base_type(self):
         type = self.type
-        if '<' in type:
-            type = type[:type.find('<')]
-        if type.endswith('?'):
+        if "<" in type:
+            type = type[: type.find("<")]
+        if type.endswith("?"):
             return type[:-1]
         return type
 

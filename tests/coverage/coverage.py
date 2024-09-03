@@ -59,33 +59,43 @@ class TestCoverage:
         total_variants = 0
         for file_coverage in self.file_coverage.values():
             for function_coverage in file_coverage.function_coverage.values():
-                for sig, test_count in function_coverage.function_variant_coverage.items():
+                for (
+                    sig,
+                    test_count,
+                ) in function_coverage.function_variant_coverage.items():
                     total_variants += 1
                     if test_count > 0:
                         covered_variants += 1
                     print(f"{file_coverage.file_name} \t\t{sig}: {test_count}")
-        print(f"Total test count: {self.test_count}, {covered_variants}/{total_variants} function variants are covered")
+        print(
+            f"Total test count: {self.test_count}, {covered_variants}/{total_variants} function variants are covered"
+        )
 
 
 def update_test_count(test_case_files: list, function_registry: FunctionRegistry):
     for test_file in test_case_files:
         for test_case in test_file.testcases:
-            function_variant = function_registry.get_function(test_case.func_name, test_case.get_arg_types())
+            function_variant = function_registry.get_function(
+                test_case.func_name, test_case.get_arg_types()
+            )
             if function_variant:
-                if function_variant.return_type != test_case.get_return_type() and not test_case.is_return_type_error():
-                    error(f"Return type mismatch in function {test_case.func_name}: {function_variant.return_type} != {test_case.get_return_type()}")
+                if (
+                    function_variant.return_type != test_case.get_return_type()
+                    and not test_case.is_return_type_error()
+                ):
+                    error(
+                        f"Return type mismatch in function {test_case.func_name}: {function_variant.return_type} != {test_case.get_return_type()}"
+                    )
                     continue
                 function_variant.increment_test_count()
             else:
                 error(f"Function not found: {test_case.func_name}({test_case.args})")
 
 
-
 if __name__ == "__main__":
-    test_files = load_all_testcases('../cases')
+    test_files = load_all_testcases("../cases")
     function_registry = Extension.read_substrait_extensions("../../extensions")
     coverage = TestCoverage(function_registry.get_extension_list())
     update_test_count(test_files, function_registry)
     function_registry.fill_coverage(coverage)
     coverage.dump_coverage()
-
