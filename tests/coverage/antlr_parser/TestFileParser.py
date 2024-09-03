@@ -1,7 +1,19 @@
 # Generated from TestFileParser.g4 by ANTLR 4.13.2
 # encoding: utf-8
-from antlr4 import *
-from io import StringIO
+from antlr4 import (
+    ATNDeserializer,
+    DFA,
+    NoViableAltException,
+    ParseTreeListener,
+    ParseTreeVisitor,
+    Parser,
+    ParserATNSimulator,
+    ParserRuleContext,
+    PredictionContextCache,
+    RecognitionException,
+    Token,
+    TokenStream,
+)
 import sys
 
 if sys.version_info[1] > 5:

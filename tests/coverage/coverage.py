@@ -31,7 +31,7 @@ class FileTestCoverage:
         self.function_coverage = dict()
 
     def update_coverage(self, func_name, args, count):
-        key = f"{func_name}({", ".join(args)})"
+        key = f"{func_name}({', '.join(args)})"
         if func_name not in self.function_coverage:
             self.function_coverage[func_name] = FunctionTestCoverage(func_name)
         self.function_coverage[func_name].update_coverage(key, count)

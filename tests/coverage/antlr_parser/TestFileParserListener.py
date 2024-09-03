@@ -1,5 +1,5 @@
 # Generated from TestFileParser.g4 by ANTLR 4.13.2
-from antlr4 import *
+from antlr4 import ParseTreeListener
 
 if "." in __name__:
     from .TestFileParser import TestFileParser
