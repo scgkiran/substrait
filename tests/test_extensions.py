@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 def test_read_substrait_extensions():
     from tests.coverage.extensions import Extension
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 from antlr4 import InputStream
 from tests.coverage.case_file_parser import parse_stream, parse_one_file
 from tests.coverage.nodes import CaseLiteral
