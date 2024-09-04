@@ -265,7 +265,7 @@ class FunctionRegistry:
                 fun_arr.append(function)
             self.registry[f_name] = fun_arr
 
-    def get_function(self, name, args) -> [FunctionVariant]:
+    def get_function(self, name: str, args: object) -> [FunctionVariant]:
         functions = self.registry.get(name, None)
         if functions is None:
             return None

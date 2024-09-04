@@ -2,10 +2,6 @@ grammar SubstraitType;
 
 import SubstraitLexer;
 
-If       : I F;
-Then     : T H E N;
-Else     : E L S E;
-
 // OPERATIONS
 And      : A N D;
 Or       : O R;
@@ -46,26 +42,6 @@ Number
 
 Identifier
   : ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '$' | Digit)*
-  ;
-
-LineComment
-  : '//' ~[\r\n]* -> channel(HIDDEN)
-  ;
-
-BlockComment
-  : (  '/*'
-      ( '/'* BlockComment
-      | ~[/*]
-      | '/'+ ~[/*]
-      | '*'+ ~[/*]
-      )*
-      '*'*
-      '*/'
-   ) -> channel(HIDDEN)
-  ;
-
-Whitespace
-  : [ \t]+ -> channel(HIDDEN)
   ;
 
 Newline
