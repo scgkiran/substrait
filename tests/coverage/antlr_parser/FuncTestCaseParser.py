@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 # Generated from FuncTestCaseParser.g4 by ANTLR 4.13.2
 # encoding: utf-8
 from antlr4 import (
@@ -5980,7 +5981,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class DateContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6005,7 +6005,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class StringContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6030,7 +6029,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class I64Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6055,7 +6053,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class UserDefinedContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6083,7 +6080,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class I32Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6108,7 +6104,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class IntervalYearContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6133,7 +6128,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class UuidContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6158,7 +6152,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class I8Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6183,7 +6176,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class I16Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6208,7 +6200,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class BinaryContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6233,7 +6224,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class IntervalDayContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6258,7 +6248,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class Fp64Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6283,7 +6272,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class Fp32Context(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6308,7 +6296,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimeContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6333,7 +6320,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class BooleanContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6358,7 +6344,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimestampContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6383,7 +6368,6 @@ class FuncTestCaseParser(Parser):
                 return visitor.visitChildren(self)
 
     class TimestampTzContext(ScalarTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.ScalarTypeContext
@@ -6532,7 +6516,6 @@ class FuncTestCaseParser(Parser):
 
     class FixedCharTypeContext(ParserRuleContext):
         __slots__ = "parser"
-
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -6546,7 +6529,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class FixedCharContext(FixedCharTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.FixedCharTypeContext
@@ -6633,7 +6615,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class VarCharContext(VarCharTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.VarCharTypeContext
@@ -6720,7 +6701,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class FixedBinaryContext(FixedBinaryTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.FixedBinaryTypeContext
@@ -6809,7 +6789,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class DecimalContext(DecimalTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.DecimalTypeContext
@@ -6914,7 +6893,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class PrecisionTimestampContext(PrecisionTimestampTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.PrecisionTimestampTypeContext
@@ -6989,7 +6967,6 @@ class FuncTestCaseParser(Parser):
 
     class PrecisionTimestampTZTypeContext(ParserRuleContext):
         __slots__ = "parser"
-
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -7003,7 +6980,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class PrecisionTimestampTZContext(PrecisionTimestampTZTypeContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.PrecisionTimestampTZTypeContext

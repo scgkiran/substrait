@@ -1,5 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
 # Generated from FuncTestCaseParser.g4 by ANTLR 4.13.2
-from antlr4 import ParseTreeListener, ParseTreeVisitor
+from antlr4 import ParseTreeListener
 
 if "." in __name__:
     from .FuncTestCaseParser import FuncTestCaseParser
