@@ -1,8 +1,8 @@
-parser grammar TestFileParser;
+parser grammar FuncTestCaseParser;
 
 options {
     tokenVocab=SubstraitLexer;
-    tokenVocab=TestFileLexer;
+    tokenVocab=FuncTestCaseLexer;
 }
 
 doc

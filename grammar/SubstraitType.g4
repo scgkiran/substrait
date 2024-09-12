@@ -73,26 +73,26 @@ scalarType
   | String #string
   | Binary #binary
   | Timestamp #timestamp
-  | TimestampTZ #timestampTz
+  | Timestamp_TZ #timestampTz
   | Date #date
   | Time #time
   | IntervalDay #intervalDay
-  | IntervalYear #intervalYear
+  | Interval_Year #intervalYear
   | UUID #uuid
   | UserDefined Identifier #userDefined
   ;
 
 parameterizedType
-  : FixedChar isnull=QMark? Lt len=numericParameter Gt #fixedChar
-  | VarChar isnull=QMark? Lt len=numericParameter Gt #varChar
-  | FixedBinary isnull=QMark? Lt len=numericParameter Gt #fixedBinary
-  | Decimal isnull=QMark? Lt precision=numericParameter Comma scale=numericParameter Gt #decimal
-  | PrecisionTimestamp isnull=QMark? Lt precision=numericParameter Gt #precisionTimestamp
-  | PrecisionTimestampTZ isnull=QMark? Lt precision=numericParameter Gt #precisionTimestampTZ
-  | Struct isnull=QMark? Lt expr (Comma expr)* Gt #struct
-  | NStruct isnull=QMark? Lt Identifier expr (Comma Identifier expr)* Gt #nStruct
-  | List isnull=QMark? Lt expr Gt #list
-  | Map isnull=QMark? Lt key=expr Comma value=expr Gt #map
+  : FixedChar isnull=QMark? Lt len=numericParameter Gt                                      #fixedChar
+  | VarChar isnull=QMark? Lt len=numericParameter Gt                                        #varChar
+  | FixedBinary isnull=QMark? Lt len=numericParameter Gt                                    #fixedBinary
+  | Decimal isnull=QMark? Lt precision=numericParameter Comma scale=numericParameter Gt     #decimal
+  | Precision_Timestamp isnull=QMark? Lt precision=numericParameter Gt                       #precisionTimestamp
+  | Precision_Timestamp_TZ isnull=QMark? Lt precision=numericParameter Gt                     #precisionTimestampTZ
+  | Struct isnull=QMark? Lt expr (Comma expr)* Gt                                           #struct
+  | NStruct isnull=QMark? Lt Identifier expr (Comma Identifier expr)* Gt                    #nStruct
+  | List isnull=QMark? Lt expr Gt                                                           #list
+  | Map isnull=QMark? Lt key=expr Comma value=expr Gt                                       #map
   ;
 
 numericParameter

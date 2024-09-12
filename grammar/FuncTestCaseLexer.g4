@@ -1,4 +1,4 @@
-lexer grammar TestFileLexer;
+lexer grammar FuncTestCaseLexer;
 
 import SubstraitLexer;
 

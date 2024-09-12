@@ -58,15 +58,15 @@ FP64     : F P '64';
 String   : S T R I N G;
 Binary   : B I N A R Y;
 Timestamp: T I M E S T A M P;
-TimestampTZ: T I M E S T A M P '_' T Z;
+Timestamp_TZ: T I M E S T A M P '_' T Z;
 Date     : D A T E;
 Time     : T I M E;
-IntervalYear: I N T E R V A L '_' Y E A R;
-IntervalDay: I N T E R V A L '_' D A Y;
+Interval_Year: I N T E R V A L '_' Y E A R;
+Interval_Day: I N T E R V A L '_' D A Y;
 UUID     : U U I D;
 Decimal  : D E C I M A L;
-PrecisionTimestamp: P R E C I S I O N '_' T I M E S T A M P;
-PrecisionTimestampTZ: P R E C I S I O N '_' T I M E S T A M P '_' T Z;
+Precision_Timestamp: P R E C I S I O N '_' T I M E S T A M P;
+Precision_Timestamp_TZ: P R E C I S I O N '_' T I M E S T A M P '_' T Z;
 FixedChar: F I X E D C H A R;
 VarChar  : V A R C H A R;
 FixedBinary: F I X E D B I N A R Y;
@@ -76,6 +76,7 @@ List     : L I S T;
 Map      : M A P;
 ANY      : A N Y;
 UserDefined: U '!';
+Geometry: G E O M E T R Y;
 
 // short names for types
 Bool: B O O L;

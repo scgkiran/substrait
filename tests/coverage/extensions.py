@@ -1,7 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
 import os
 import yaml
+from antlr4 import InputStream
 from ruamel.yaml import YAML
+
+from tests.coverage.antlr_parser.SubstraitLexer import SubstraitLexer
 
 enable_debug = False
 
@@ -15,52 +18,48 @@ def debug(msg):
         print(f"DEBUG: {msg}")
 
 
-type_to_short_type = {
-    "required enumeration": "req",
-    "i8": "i8",
-    "i16": "i16",
-    "i32": "i32",
-    "i64": "i64",
-    "fp32": "fp32",
-    "fp64": "fp64",
-    "string": "str",
-    "binary": "vbin",
-    "boolean": "bool",
-    "timestamp": "ts",
-    "timestamp_tz": "tstz",
-    "date": "date",
-    "time": "time",
-    "interval_year": "iyear",
-    "interval_day": "iday",
-    "uuid": "uuid",
-    "fixedchar<N>": "fchar",
-    "varchar<N>": "vchar",
-    "fixedbinary<N>": "fbin",
-    "decimal<P,S>": "dec",
-    "precision_timestamp<P>": "pts",
-    "precision_timestamp_tz<P>": "ptstz",
-    "struct<T1,T2,...,TN>": "struct",
-    "list<T>": "list",
-    "map<K,V>": "map",
-    "map": "map",
-    "any": "any",
-    "any1": "any1",
-    "any2": "any2",
-    "any3": "any3",
-    "user defined type": "u!name",
-    # added to handle parametrized types
-    "fixedchar": "fchar",
-    "varchar": "vchar",
-    "fixedbinary": "fbin",
-    "decimal": "dec",
-    "precision_timestamp": "pts",
-    "precision_timestamp_tz": "ptstz",
-    "struct": "struct",
-    "list": "list",
-    # added to handle geometry type
-    "geometry": "geometry",
-}
+def substrait_type_str(rule_num):
+    return SubstraitLexer.symbolicNames[rule_num].lower()
 
+
+def build_type_to_short_type():
+    rule_map = {
+        SubstraitLexer.I8:   SubstraitLexer.I8,
+        SubstraitLexer.I16:  SubstraitLexer.I16,
+        SubstraitLexer.I32:  SubstraitLexer.I32,
+        SubstraitLexer.I64:  SubstraitLexer.I64,
+        SubstraitLexer.FP32: SubstraitLexer.FP32,
+        SubstraitLexer.FP64: SubstraitLexer.FP64,
+        SubstraitLexer.String: SubstraitLexer.Str,
+        SubstraitLexer.Binary: SubstraitLexer.VBin,
+        SubstraitLexer.Boolean: SubstraitLexer.Bool,
+        SubstraitLexer.Timestamp: SubstraitLexer.Ts,
+        SubstraitLexer.Timestamp_TZ: SubstraitLexer.TsTZ,
+        SubstraitLexer.Date: SubstraitLexer.Date,
+        SubstraitLexer.Time: SubstraitLexer.Time,
+        SubstraitLexer.Interval_Year: SubstraitLexer.IYear,
+        SubstraitLexer.Interval_Day: SubstraitLexer.IDay,
+        SubstraitLexer.UUID: SubstraitLexer.UUID,
+        SubstraitLexer.FixedChar: SubstraitLexer.FChar,
+        SubstraitLexer.VarChar: SubstraitLexer.VChar,
+        SubstraitLexer.FixedBinary: SubstraitLexer.FBin,
+        SubstraitLexer.Decimal: SubstraitLexer.Dec,
+        SubstraitLexer.Precision_Timestamp: SubstraitLexer.PTs,
+        SubstraitLexer.Precision_Timestamp_TZ: SubstraitLexer.PTsTZ,
+        SubstraitLexer.Struct: SubstraitLexer.Struct,
+        SubstraitLexer.List: SubstraitLexer.List,
+        SubstraitLexer.Map: SubstraitLexer.Map,
+        SubstraitLexer.ANY: SubstraitLexer.ANY,
+        SubstraitLexer.Geometry: SubstraitLexer.Geometry,
+    }
+    to_short_type = {substrait_type_str(k): substrait_type_str(v) for k, v in rule_map.items()}
+    any_type = substrait_type_str(SubstraitLexer.ANY)
+    for i in range(1, 3):
+        to_short_type[f"{any_type}{i}"] = f"{any_type}{i}"
+    return to_short_type
+
+
+type_to_short_type = build_type_to_short_type()
 short_type_to_type = {st: lt for lt, st in type_to_short_type.items()}
 
 

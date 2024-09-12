@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+import json
 from collections import defaultdict
 
 from tests.coverage.case_file_parser import load_all_testcases
@@ -19,6 +20,13 @@ class FunctionTestCoverage:
         self.function_variant_coverage[function_variant] += count
         self.test_count += count
 
+    def to_dict(self):
+        return {
+            "function_name": self.function_name,
+            "test_count": self.test_count,
+            "variants": [{"signature": variant, "test_count": count} for variant, count in self.function_variant_coverage.items()]
+        }
+
 
 class FileTestCoverage:
     file_name: str
@@ -37,14 +45,25 @@ class FileTestCoverage:
         self.function_coverage[func_name].update_coverage(key, count)
         self.test_count += count
 
+    def to_dict(self):
+        return {
+            "file_name": self.file_name,
+            "test_count": self.test_count,
+            "function_coverage": [func_coverage.to_dict() for func_name, func_coverage in self.function_coverage.items()],
+        }
+
 
 class TestCoverage:
     file_coverage: dict[str, FileTestCoverage]
     test_count: int
+    num_covered_variants: int
+    total_variants: int
 
     def __init__(self, ext_uris):
         self.file_coverage = dict()
         self.test_count = 0
+        self.num_covered_variants = 0
+        self.total_variants = 0
         for ext_uri in ext_uris:
             self.file_coverage[ext_uri] = FileTestCoverage(ext_uri)
 
@@ -54,22 +73,24 @@ class TestCoverage:
         self.file_coverage[ext_uri].update_coverage(function, args, count)
         self.test_count += count
 
-    def dump_coverage(self):
-        covered_variants = 0
-        total_variants = 0
+    def compute_coverage(self):
         for file_coverage in self.file_coverage.values():
             for function_coverage in file_coverage.function_coverage.values():
-                for (
-                    sig,
-                    test_count,
-                ) in function_coverage.function_variant_coverage.items():
-                    total_variants += 1
+                for test_count in function_coverage.function_variant_coverage.values():
                     if test_count > 0:
-                        covered_variants += 1
-                    print(f"{file_coverage.file_name} \t\t{sig}: {test_count}")
-        print(
-            f"Total test count: {self.test_count}, {covered_variants}/{total_variants} function variants are covered"
-        )
+                        self.num_covered_variants += 1
+                    self.total_variants += 1
+
+    def to_dict(self):
+        return {
+            "file_coverage": [file_coverage.to_dict() for file_coverage in self.file_coverage.values()],
+            "test_count": self.test_count,
+            "num_covered_function_variants": self.num_covered_variants,
+            "total_function_variants": self.total_variants,
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), indent=2)
 
 
 def update_test_count(test_case_files: list, function_registry: FunctionRegistry):
@@ -98,4 +119,5 @@ if __name__ == "__main__":
     coverage = TestCoverage(function_registry.get_extension_list())
     update_test_count(test_files, function_registry)
     function_registry.fill_coverage(coverage)
-    coverage.dump_coverage()
+    coverage.compute_coverage()
+    print(coverage.to_json())

@@ -1,5 +1,5 @@
 ANTLR_JAR=antlr-4.13.2-complete.jar
-GRAMMARS=SubstraitLexer.g4 TestFileLexer.g4 TestFileParser.g4
+GRAMMARS=SubstraitLexer.g4 FuncTestCaseLexer.g4 FuncTestCaseParser.g4
 OUTPUT_DIR=../tests/coverage/antlr_parser
 
 generate:

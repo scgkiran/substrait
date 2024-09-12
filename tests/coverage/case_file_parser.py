@@ -3,16 +3,16 @@ import os
 
 from antlr4 import CommonTokenStream, FileStream
 
-from tests.coverage.antlr_parser.TestFileLexer import TestFileLexer
-from tests.coverage.antlr_parser.TestFileParser import TestFileParser
+from tests.coverage.antlr_parser.FuncTestCaseLexer import FuncTestCaseLexer
+from tests.coverage.antlr_parser.FuncTestCaseParser import FuncTestCaseParser
 from tests.coverage.visitor import TestCaseVisitor
 
 
 def parse_stream(input_stream, file_path):
     # Create a lexer and parser
-    lexer = TestFileLexer(input_stream)
+    lexer = FuncTestCaseLexer(input_stream)
     token_stream = CommonTokenStream(lexer)
-    parser = TestFileParser(token_stream)
+    parser = FuncTestCaseParser(token_stream)
 
     tree = parser.doc()  # This is the entry point of testfile parser
     if parser.getNumberOfSyntaxErrors() > 0:
