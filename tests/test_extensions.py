@@ -1,11 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
+import os
+
 from tests.coverage.extensions import build_type_to_short_type
 
 
+# NOTE: this test is run as part of pre-commit hook
 def test_read_substrait_extensions():
     from tests.coverage.extensions import Extension
 
-    registry = Extension.read_substrait_extensions("../extensions")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    extensions_path = os.path.join(current_dir, "../extensions")
+    registry = Extension.read_substrait_extensions(extensions_path)
     assert len(registry.registry) >= 161
     num_overloads = sum([len(f) for f in registry.registry.values()])
     assert num_overloads >= 510
