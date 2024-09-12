@@ -1,5 +1,5 @@
 # Generated from FuncTestCaseParser.g4 by ANTLR 4.13.2
-from antlr4 import *
+from antlr4 import ParseTreeListener, ParseTreeVisitor
 
 if "." in __name__:
     from .FuncTestCaseParser import FuncTestCaseParser

@@ -25,7 +25,6 @@ add(100::i16, 100::i16) = 200::i16
 add(120::i8, 10::i8) [overflow:ERROR] = <!ERROR>
 """
 
-    test_str = header + tests
     test_file = parse_string(header + tests)
     assert len(test_file.testcases) == 3
 

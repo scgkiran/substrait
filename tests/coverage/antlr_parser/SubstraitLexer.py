@@ -1,6 +1,11 @@
 # Generated from SubstraitLexer.g4 by ANTLR 4.13.2
-from antlr4 import *
-from io import StringIO
+from antlr4 import (
+    ATNDeserializer,
+    DFA,
+    Lexer,
+    LexerATNSimulator,
+    PredictionContextCache,
+)
 import sys
 
 if sys.version_info[1] > 5:
