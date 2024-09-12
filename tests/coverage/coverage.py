@@ -24,7 +24,10 @@ class FunctionTestCoverage:
         return {
             "function_name": self.function_name,
             "test_count": self.test_count,
-            "variants": [{"signature": variant, "test_count": count} for variant, count in self.function_variant_coverage.items()]
+            "variants": [
+                {"signature": variant, "test_count": count}
+                for variant, count in self.function_variant_coverage.items()
+            ],
         }
 
 
@@ -49,7 +52,10 @@ class FileTestCoverage:
         return {
             "file_name": self.file_name,
             "test_count": self.test_count,
-            "function_coverage": [func_coverage.to_dict() for func_name, func_coverage in self.function_coverage.items()],
+            "function_coverage": [
+                func_coverage.to_dict()
+                for func_name, func_coverage in self.function_coverage.items()
+            ],
         }
 
 
@@ -83,7 +89,9 @@ class TestCoverage:
 
     def to_dict(self):
         return {
-            "file_coverage": [file_coverage.to_dict() for file_coverage in self.file_coverage.values()],
+            "file_coverage": [
+                file_coverage.to_dict() for file_coverage in self.file_coverage.values()
+            ],
             "test_count": self.test_count,
             "num_covered_function_variants": self.num_covered_variants,
             "total_function_variants": self.total_variants,

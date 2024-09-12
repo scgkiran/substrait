@@ -24,10 +24,10 @@ def substrait_type_str(rule_num):
 
 def build_type_to_short_type():
     rule_map = {
-        SubstraitLexer.I8:   SubstraitLexer.I8,
-        SubstraitLexer.I16:  SubstraitLexer.I16,
-        SubstraitLexer.I32:  SubstraitLexer.I32,
-        SubstraitLexer.I64:  SubstraitLexer.I64,
+        SubstraitLexer.I8: SubstraitLexer.I8,
+        SubstraitLexer.I16: SubstraitLexer.I16,
+        SubstraitLexer.I32: SubstraitLexer.I32,
+        SubstraitLexer.I64: SubstraitLexer.I64,
         SubstraitLexer.FP32: SubstraitLexer.FP32,
         SubstraitLexer.FP64: SubstraitLexer.FP64,
         SubstraitLexer.String: SubstraitLexer.Str,
@@ -52,7 +52,9 @@ def build_type_to_short_type():
         SubstraitLexer.ANY: SubstraitLexer.ANY,
         SubstraitLexer.Geometry: SubstraitLexer.Geometry,
     }
-    to_short_type = {substrait_type_str(k): substrait_type_str(v) for k, v in rule_map.items()}
+    to_short_type = {
+        substrait_type_str(k): substrait_type_str(v) for k, v in rule_map.items()
+    }
     any_type = substrait_type_str(SubstraitLexer.ANY)
     for i in range(1, 3):
         to_short_type[f"{any_type}{i}"] = f"{any_type}{i}"

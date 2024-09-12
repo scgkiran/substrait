@@ -40,7 +40,10 @@ lt('2016-12-31T13:30:15'::ts, '2017-12-31T13:30:15'::ts) = true::bool
     assert len(test_file.testcases) == 1
     assert test_file.testcases[0].func_name == "lt"
     assert test_file.testcases[0].base_uri == "/extensions/functions_datetime.yaml"
-    assert test_file.testcases[0].group.name == "timestamp examples using the timestamp type"
+    assert (
+        test_file.testcases[0].group.name
+        == "timestamp examples using the timestamp type"
+    )
     assert test_file.testcases[0].result == CaseLiteral("true", "bool")
     assert test_file.testcases[0].args[0] == CaseLiteral("2016-12-31T13:30:15", "ts")
     assert test_file.testcases[0].args[1] == CaseLiteral("2017-12-31T13:30:15", "ts")
