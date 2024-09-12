@@ -6516,6 +6516,7 @@ class FuncTestCaseParser(Parser):
 
     class FixedCharTypeContext(ParserRuleContext):
         __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -6967,6 +6968,7 @@ class FuncTestCaseParser(Parser):
 
     class PrecisionTimestampTZTypeContext(ParserRuleContext):
         __slots__ = "parser"
+
         def __init__(
             self, parser, parent: ParserRuleContext = None, invokingState: int = -1
         ):
@@ -7169,7 +7171,6 @@ class FuncTestCaseParser(Parser):
             super().copyFrom(ctx)
 
     class IntegerLiteralContext(NumericParameterContext):
-
         def __init__(
             self, parser, ctx: ParserRuleContext
         ):  # actually a FuncTestCaseParser.NumericParameterContext
