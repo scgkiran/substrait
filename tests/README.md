@@ -13,6 +13,10 @@ A test file consists of the following elements:
 The version declaration must be the first line of the file. It specifies the version of the test file format. The version declaration must be in the following format:
 ```
 ### SUBSTRAIT_SCALAR_TEST: V1
+
+or
+
+### SUBSTRAIT_AGGREGATE_TEST: V1
 ```
 
 ### Include Statements
@@ -27,7 +31,7 @@ A test group is a collection of test cases that are logically related. Test grou
     ```code
     # Common Maths
     ```
-### Test Cases
+### Scalar Test Cases
 A test case consists of the following elements:
 
 - **function**: The name of the function being tested. The function name must be an identifier alphanumeric string.
@@ -40,6 +44,36 @@ A test case consists of the following elements:
     ```code
     add(126::i8, 1::i8) = 127::i8  # addition of two numbers
     ```
+
+### Aggregate Test Cases
+A test case consists of the following elements:
+
+- **table definition**:
+- **function**: The name of the function being tested. The function name must be an identifier alphanumeric string.
+- **arguments**: Comma-separated list of arguments to the function. The arguments can be literals or column references.
+- **options**: Optional comma-separated list of options in `key:value` format. The options describe the behavior of the function. The test should be run only on dialects that support the options. If options are not specified, the test should be run for all permutations of the options.
+- **result**: The expected result of the function. Either `SUBSTRAIT_ERROR` or a literal value.
+
+Aggregate test cases support 3 formats:
+1. **Single Argument**: The test case for an aggregate function with single argument as a column in a table. The table is defined in the test case.
+    ```code
+    sum((1, 2, 3, 4, 5)::i8) = 15::i8  # addition of two numbers
+    ```
+2. **Multiple Columns Compact**: The test case for an aggregate function with on one or more columns of a table as argument. The table is defined before the function name, in the same line as the testcase.
+    ```code
+    ((20, 20), (-3, -3), (1, 1), (10,10), (5,5)) corr(col0::fp32, col1::fp32) = 1::fp64
+    ```
+3. **Multiple Columns Verbose**: The test case for an aggregate function with one or more columns of a table as arguments. The table is defined before the function name. The function arguments refer to the columns in a table.
+    ```code
+    DEFINE t1(fp32, fp32) = ((20, 20), (-3, -3), (1, 1), (10,10), (5,5))
+    corr(t1.col0, t1.col1) = 1::fp64
+    ```
+
+#### Example:
+A testcase with mixed arguments
+```code
+    ((20), (-3), (1), (10)) LIST_AGG(col0::fp32, ','::string) = 1::fp64
+```
 
 ### Spec
 
@@ -67,7 +101,7 @@ complex_type := <struct> | <list> | <map>
 substrait_error := <!ERROR> | <!UNDEFINED>
 ```
 
-**TODO:** use ANTLR to describe the grammar and generate parser
+Actual antlr grammar can be found in `grammar/FuncTestCaseParser.g4`
 ### Literals
 
 `<literal_value>` described in this section.
