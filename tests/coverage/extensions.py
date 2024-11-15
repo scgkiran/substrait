@@ -3,6 +3,7 @@ import os
 import yaml
 
 from tests.coverage.antlr_parser.FuncTestCaseLexer import FuncTestCaseLexer
+from tests.coverage.nodes import SubstraitError
 
 enable_debug = False
 
@@ -263,13 +264,39 @@ class FunctionRegistry:
                 fun_arr.append(function)
             self.registry[f_name] = fun_arr
 
-    def get_function(self, name: str, args: object) -> [FunctionVariant]:
+    @staticmethod
+    def is_same_type(func_arg_type, arg_type):
+        arg_type_base = arg_type.split("<")[0]
+        if func_arg_type == arg_type_base:
+            return True
+        if func_arg_type == "any":
+            return True
+        return False
+
+    def get_function(self, name: str, args: object, return_type) -> [FunctionVariant]:
         functions = self.registry.get(name, None)
         if functions is None:
             return None
         for function in functions:
+            if not isinstance(return_type, SubstraitError) and not self.is_same_type(
+                function.return_type, return_type
+            ):
+                continue
             if function.args == args:
                 return function
+            if len(function.args) != len(args) and not (
+                function.variadic and len(args) >= len(function.args)
+            ):
+                continue
+            is_match = True
+            for i, arg in enumerate(args):
+                j = i if i < len(function.args) else len(function.args) - 1
+                if not self.is_same_type(function.args[j], arg):
+                    is_match = False
+                    break
+            if is_match:
+                return function
+        return None
 
     def get_extension_list(self):
         return list(self.extensions)
